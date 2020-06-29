@@ -90,8 +90,22 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            int numOfRecords = stateAnalyser.loadIndiaStateCode("./src/test/resources/IndiaStateCode.csv", ',');
+            int numOfRecords = stateAnalyser.loadIndiaStateCode("./src/test/resources" +
+                    "/IndiaStateCode.csv", ',');
             Assert.assertEquals(37,numOfRecords);
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndiaStateCodeData_WithWrongFile_ShouldThrowException()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCode.csv", ',');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
