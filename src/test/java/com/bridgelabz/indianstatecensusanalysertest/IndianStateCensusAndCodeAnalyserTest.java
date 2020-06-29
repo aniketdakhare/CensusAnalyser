@@ -112,4 +112,17 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndiaStateCodeData_WithWrongFileType_ShouldThrowException()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCode.java", ',');
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
