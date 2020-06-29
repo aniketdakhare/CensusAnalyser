@@ -4,7 +4,7 @@ public class IndianStateCensusAndCodeAnalyserException extends Exception
 {
     public enum ExceptionType
     {
-        CENSUS_FILE_PROBLEM, INCORRECT_DELIMITER_OR_HEADER
+        CSV_FILE_PROBLEM, INCORRECT_DELIMITER_OR_HEADER
     }
 
     public ExceptionType type;
