@@ -17,7 +17,7 @@ public class IndianStateCensusAnalyser
 {
     public int loadIndiaCensusData(String csvFilePath, char separator) throws IndianStateCensusAnalyserException
     {
-        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
+        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath, "State","Population")))
         {
             CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(IndiaCensusCSV.class);
@@ -41,8 +41,8 @@ public class IndianStateCensusAnalyser
         }
         catch (RuntimeException e)
         {
-            throw new IndianStateCensusAnalyserException("Entered incorrect Delimiter",
-                    IndianStateCensusAnalyserException.ExceptionType.INCORRECT_DELIMITER, e);
+            throw new IndianStateCensusAnalyserException("Entered incorrect Delimiter or incorrect Header",
+                    IndianStateCensusAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
         }
     }
 }
