@@ -9,11 +9,11 @@ import org.junit.rules.ExpectedException;
 
 public class IndianStateCensusAndCodeAnalyserTest
 {
-    IndianStateCensusAndCodeAnalyser censusAnalyser;
+    IndianStateCensusAndCodeAnalyser stateAnalyser;
     @Before
     public void reusableObjects()
     {
-        censusAnalyser = new IndianStateCensusAndCodeAnalyser();
+        stateAnalyser = new IndianStateCensusAndCodeAnalyser();
         ExpectedException exceptionRule = ExpectedException.none();
         exceptionRule.expect(IndianStateCensusAndCodeAnalyserException.class);
     }
@@ -23,7 +23,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            int numOfRecords = censusAnalyser.loadIndiaCensusData("./src/test/resources/" +
+            int numOfRecords = stateAnalyser.loadIndiaCensusData("./src/test/resources/" +
                     "IndiaStateCensusData.csv", ',');
             Assert.assertEquals(29,numOfRecords);
         }
@@ -38,7 +38,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCensusData.csv", ',');
+            stateAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCensusData.csv", ',');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
@@ -51,7 +51,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.java", ',');
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.java", ',');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
@@ -64,7 +64,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ';');
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ';');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
@@ -77,7 +77,21 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensussData.csv", ',');
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensussData.csv", ',');
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndiaStateCodeCSVFile_ReturnsCorrectRecords()
+    {
+        try
+        {
+            int numOfRecords = stateAnalyser.loadIndiaStateCode("./src/test/resources/IndiaStateCode.csv", ',');
+            Assert.assertEquals(37,numOfRecords);
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
