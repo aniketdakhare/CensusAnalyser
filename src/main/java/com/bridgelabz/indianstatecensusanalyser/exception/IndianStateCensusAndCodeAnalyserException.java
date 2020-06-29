@@ -1,6 +1,6 @@
 package com.bridgelabz.indianstatecensusanalyser.exception;
 
-public class IndianStateCensusAnalyserException extends Exception
+public class IndianStateCensusAndCodeAnalyserException extends Exception
 {
     public enum ExceptionType
     {
@@ -9,7 +9,7 @@ public class IndianStateCensusAnalyserException extends Exception
 
     public ExceptionType type;
 
-    public IndianStateCensusAnalyserException(String message, ExceptionType type)
+    public IndianStateCensusAndCodeAnalyserException(String message, ExceptionType type)
     {
         super(message);
         this.type = type;

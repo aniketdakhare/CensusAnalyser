@@ -1,21 +1,21 @@
 package com.bridgelabz.indianstatecensusanalysertest;
 
-import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAnalyserException;
-import com.bridgelabz.indianstatecensusanalyser.services.IndianStateCensusAnalyser;
+import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
+import com.bridgelabz.indianstatecensusanalyser.services.IndianStateCensusAndCodeAnalyser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class IndianStateCensusAnalyserTest
+public class IndianStateCensusAndCodeAnalyserTest
 {
-    IndianStateCensusAnalyser censusAnalyser;
+    IndianStateCensusAndCodeAnalyser censusAnalyser;
     @Before
     public void reusableObjects()
     {
-        censusAnalyser = new IndianStateCensusAnalyser();
+        censusAnalyser = new IndianStateCensusAndCodeAnalyser();
         ExpectedException exceptionRule = ExpectedException.none();
-        exceptionRule.expect(IndianStateCensusAnalyserException.class);
+        exceptionRule.expect(IndianStateCensusAndCodeAnalyserException.class);
     }
 
     @Test
@@ -27,7 +27,7 @@ public class IndianStateCensusAnalyserTest
                     "IndiaStateCensusData.csv", ',');
             Assert.assertEquals(29,numOfRecords);
         }
-        catch (IndianStateCensusAnalyserException e)
+        catch (IndianStateCensusAndCodeAnalyserException e)
         {
             e.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class IndianStateCensusAnalyserTest
         {
             censusAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCensusData.csv", ',');
         }
-        catch (IndianStateCensusAnalyserException e)
+        catch (IndianStateCensusAndCodeAnalyserException e)
         {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class IndianStateCensusAnalyserTest
         {
             censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.java", ',');
         }
-        catch (IndianStateCensusAnalyserException e)
+        catch (IndianStateCensusAndCodeAnalyserException e)
         {
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class IndianStateCensusAnalyserTest
         {
             censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ';');
         }
-        catch (IndianStateCensusAnalyserException e)
+        catch (IndianStateCensusAndCodeAnalyserException e)
         {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class IndianStateCensusAnalyserTest
         {
             censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensussData.csv", ',');
         }
-        catch (IndianStateCensusAnalyserException e)
+        catch (IndianStateCensusAndCodeAnalyserException e)
         {
             e.printStackTrace();
         }

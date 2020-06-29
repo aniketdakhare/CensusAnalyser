@@ -1,6 +1,6 @@
 package com.bridgelabz.indianstatecensusanalyser.services;
 
-import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAnalyserException;
+import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
-public class IndianStateCensusAnalyser
+public class IndianStateCensusAndCodeAnalyser
 {
-    public int loadIndiaCensusData(String csvFilePath, char separator) throws IndianStateCensusAnalyserException
+    public int loadIndiaCensusData(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
     {
-        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath, "State","Population")))
+        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
             CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(IndiaCensusCSV.class);
@@ -30,19 +30,19 @@ public class IndianStateCensusAnalyser
         }
         catch (NoSuchFileException e)
         {
-            throw new IndianStateCensusAnalyserException("Entered wrong file name/path or wrong file extension",
-                    IndianStateCensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+            throw new IndianStateCensusAndCodeAnalyserException("Entered wrong file name/path or wrong file extension",
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
 
         }
         catch (IOException e)
         {
-            throw new IndianStateCensusAnalyserException(e.getMessage(),
-                    IndianStateCensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+            throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
         catch (RuntimeException e)
         {
-            throw new IndianStateCensusAnalyserException("Entered incorrect Delimiter or incorrect Header",
-                    IndianStateCensusAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
+            throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
         }
     }
 }
