@@ -23,7 +23,8 @@ public class IndianStateCensusAnalyserTest
     {
         try
         {
-            int numOfRecords = censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv");
+            int numOfRecords = censusAnalyser.loadIndiaCensusData("./src/test/resources/" +
+                    "IndiaStateCensusData.csv", ';');
             Assert.assertEquals(29,numOfRecords);
         }
         catch (IndianStateCensusAnalyserException e)
@@ -37,7 +38,7 @@ public class IndianStateCensusAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCensusData.csv");
+            censusAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCensusData.csv", ',');
         }
         catch (IndianStateCensusAnalyserException e)
         {
@@ -50,7 +51,20 @@ public class IndianStateCensusAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.java");
+            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.java", ',');
+        }
+        catch (IndianStateCensusAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndiaCensusData_WithCorrectFile_ButIncorrectDelimiter_ShouldThrowException()
+    {
+        try
+        {
+            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ';');
         }
         catch (IndianStateCensusAnalyserException e)
         {
