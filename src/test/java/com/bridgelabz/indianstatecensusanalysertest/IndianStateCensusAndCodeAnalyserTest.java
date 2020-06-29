@@ -105,7 +105,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            stateAnalyser.loadIndiaCensusData("./src/main/resources/IndiaStateCode.csv", ',');
+            stateAnalyser.loadIndiaStateCode("./src/main/resources/IndiaStateCode.csv", ',');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
@@ -118,7 +118,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCode.java", ',');
+            stateAnalyser.loadIndiaStateCode("./src/test/resources/IndiaStateCode.java", ',');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
@@ -131,7 +131,20 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCode.csv", ';');
+            stateAnalyser.loadIndiaStateCode("./src/test/resources/IndiaStateCode.csv", ';');
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndiaStateCodeData_WithCorrectFile_ButIncorrectCsvHeader_ShouldThrowException()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaStateCode("./src/test/resources/IndianStateCode.csv", ',');
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
