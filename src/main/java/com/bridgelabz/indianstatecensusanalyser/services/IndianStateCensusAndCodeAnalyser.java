@@ -33,12 +33,12 @@ public class IndianStateCensusAndCodeAnalyser
         catch (NoSuchFileException e)
         {
             throw new IndianStateCensusAndCodeAnalyserException("Entered wrong file name/path or wrong file extension",
-                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
         catch (IOException e)
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
-                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
         catch (RuntimeException e)
         {
@@ -61,10 +61,15 @@ public class IndianStateCensusAndCodeAnalyser
             int numberOfEntries = (int) StreamSupport.stream(codeData.spliterator(), false).count();
             return numberOfEntries;
         }
+        catch (NoSuchFileException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException("Entered wrong file name/path or wrong file extension",
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
+        }
         catch (IOException e)
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
-                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
     }
 }
