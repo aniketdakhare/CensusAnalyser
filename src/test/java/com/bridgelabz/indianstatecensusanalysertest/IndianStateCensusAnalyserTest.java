@@ -24,7 +24,7 @@ public class IndianStateCensusAnalyserTest
         try
         {
             int numOfRecords = censusAnalyser.loadIndiaCensusData("./src/test/resources/" +
-                    "IndiaStateCensusData.csv", ';');
+                    "IndiaStateCensusData.csv", ',');
             Assert.assertEquals(29,numOfRecords);
         }
         catch (IndianStateCensusAnalyserException e)
@@ -65,6 +65,19 @@ public class IndianStateCensusAnalyserTest
         try
         {
             censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ';');
+        }
+        catch (IndianStateCensusAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndiaCensusData_WithCorrectFile_ButIncorrectCsvHeader_ShouldThrowException()
+    {
+        try
+        {
+            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensussData.csv", ',');
         }
         catch (IndianStateCensusAnalyserException e)
         {
