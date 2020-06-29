@@ -4,7 +4,7 @@ public class IndianStateCensusAnalyserException extends Exception
 {
     public enum ExceptionType
     {
-        CENSUS_FILE_PROBLEM
+        CENSUS_FILE_PROBLEM, INCORRECT_DELIMITER
     }
 
     public ExceptionType type;
