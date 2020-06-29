@@ -44,4 +44,17 @@ public class IndianStateCensusAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndiaCensusData_WithWrongFileType_ShouldThrowException()
+    {
+        try
+        {
+            censusAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.java");
+        }
+        catch (IndianStateCensusAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
