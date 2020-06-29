@@ -2,6 +2,7 @@ package com.bridgelabz.indianstatecensusanalyser.services;
 
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
+import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -19,10 +20,11 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(IndiaCensusCSV.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true).withSeparator(separator);
-            CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
+            CsvToBean<IndiaCensusCSV> csvToBean = new CsvToBeanBuilder<IndiaCensusCSV>(reader)
+                    .withType(IndiaCensusCSV.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withSeparator(separator)
+                    .build();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
             Iterable<IndiaCensusCSV> censusData = () -> censusCSVIterator;
             int numberOfEntries = (int) StreamSupport.stream(censusData.spliterator(), false).count();
@@ -32,7 +34,6 @@ public class IndianStateCensusAndCodeAnalyser
         {
             throw new IndianStateCensusAndCodeAnalyserException("Entered wrong file name/path or wrong file extension",
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-
         }
         catch (IOException e)
         {
@@ -43,6 +44,27 @@ public class IndianStateCensusAndCodeAnalyser
         {
             throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
+        }
+    }
+
+    public int loadIndiaStateCode(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
+    {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
+        {
+            CsvToBean<IndiaStateCodeCSV> csvToBean = new CsvToBeanBuilder<IndiaStateCodeCSV>(reader)
+                    .withType(IndiaStateCodeCSV.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withSeparator(separator)
+                    .build();
+            Iterator<IndiaStateCodeCSV> codeCSVIterator = csvToBean.iterator();
+            Iterable<IndiaStateCodeCSV> codeData = () -> codeCSVIterator;
+            int numberOfEntries = (int) StreamSupport.stream(codeData.spliterator(), false).count();
+            return numberOfEntries;
+        }
+        catch (IOException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
 }
