@@ -71,5 +71,10 @@ public class IndianStateCensusAndCodeAnalyser
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
+        catch (RuntimeException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
+        }
     }
 }
