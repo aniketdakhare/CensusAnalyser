@@ -27,11 +27,18 @@ public class IndianStateCensusAnalyser
             Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
             Iterable<IndiaCensusCSV> censusData = () -> censusCSVIterator;
             int numberOfEntries = (int) StreamSupport.stream(censusData.spliterator(),false).count();
+            System.out.println(numberOfEntries);
             return numberOfEntries;
+        }
+        catch (NoSuchFileException e)
+        {
+            throw new IndianStateCensusAnalyserException("Entered wrong file name/path or wrong file extension",
+                    IndianStateCensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+
         }
         catch (IOException e)
         {
-            throw new IndianStateCensusAnalyserException("Entered incorrect File name/path.",
+            throw new IndianStateCensusAnalyserException(e.getMessage(),
                     IndianStateCensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
