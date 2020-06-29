@@ -16,6 +16,13 @@ import java.util.stream.StreamSupport;
 
 public class IndianStateCensusAndCodeAnalyser
 {
+    /**
+     * METHOD TO LOAD INDIAN STATE CENSUS DATA
+     * @param csvFilePath provides the path of file
+     * @param separator provides the seperator in csv file
+     * @return number of records
+     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
+     */
     public int loadIndiaCensusData(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
     {
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
@@ -47,6 +54,13 @@ public class IndianStateCensusAndCodeAnalyser
         }
     }
 
+    /**
+     * METHOD TO LOAD INDIAN STATE CENSUS DATA
+     * @param csvFilePath provides the path of file
+     * @param separator provides the seperator in csv file
+     * @return number of records
+     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
+     */
     public int loadIndiaStateCode(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
