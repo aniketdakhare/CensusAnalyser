@@ -15,19 +15,17 @@ import java.util.stream.StreamSupport;
 
 public class IndianStateCensusAnalyser
 {
-    public int loadIndiaCensusData(String csvFilePath) throws IndianStateCensusAnalyserException
+    public int loadIndiaCensusData(String csvFilePath, char separator) throws IndianStateCensusAnalyserException
     {
-        try
+        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(IndiaCensusCSV.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true).withSeparator(separator);
             CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
             Iterable<IndiaCensusCSV> censusData = () -> censusCSVIterator;
-            int numberOfEntries = (int) StreamSupport.stream(censusData.spliterator(),false).count();
-            System.out.println(numberOfEntries);
+            int numberOfEntries = (int) StreamSupport.stream(censusData.spliterator(), false).count();
             return numberOfEntries;
         }
         catch (NoSuchFileException e)
@@ -40,6 +38,11 @@ public class IndianStateCensusAnalyser
         {
             throw new IndianStateCensusAnalyserException(e.getMessage(),
                     IndianStateCensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+        catch (RuntimeException e)
+        {
+            throw new IndianStateCensusAnalyserException("Entered incorrect Delimiter",
+                    IndianStateCensusAnalyserException.ExceptionType.INCORRECT_DELIMITER, e);
         }
     }
 }
