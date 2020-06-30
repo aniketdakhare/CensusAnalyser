@@ -3,7 +3,7 @@ package com.bridgelabz.indianstatecensusanalyser.services;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
-import com.bridgelabz.indianstatecensusanalyser.utility.OpenCSVBuilder;
+import com.bridgelabz.indianstatecensusanalyser.utility.CSVBuilderFactory;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,7 +26,7 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder()
+            Iterator<IndiaCensusCSV> censusCSVIterator = CSVBuilderFactory.createCSVBuilder()
                     .getCSVFileIterator(reader, IndiaCensusCSV.class, separator);
             return this.getCount(censusCSVIterator);
         }
@@ -53,7 +53,7 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            Iterator<IndiaStateCodeCSV> codeCSVIterator = new OpenCSVBuilder()
+            Iterator<IndiaStateCodeCSV> codeCSVIterator = CSVBuilderFactory.createCSVBuilder()
                     .getCSVFileIterator(reader, IndiaStateCodeCSV.class, separator);
             return this.getCount(codeCSVIterator);
         }
