@@ -19,7 +19,7 @@ public class IndianStateCensusAndCodeAnalyser
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
      * @param csvFilePath provides the path of file
-     * @param separator provides the seperator in csv file
+     * @param separator provides the seperator for records in csv file
      * @return number of records
      * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
      */
@@ -27,12 +27,7 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            CsvToBean<IndiaCensusCSV> csvToBean = new CsvToBeanBuilder<IndiaCensusCSV>(reader)
-                    .withType(IndiaCensusCSV.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .withSeparator(separator)
-                    .build();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
+            Iterator<IndiaCensusCSV> censusCSVIterator = this.getCSVFileIterator(reader, IndiaCensusCSV.class, separator);
             Iterable<IndiaCensusCSV> censusData = () -> censusCSVIterator;
             int numberOfEntries = (int) StreamSupport.stream(censusData.spliterator(), false).count();
             return numberOfEntries;
@@ -47,17 +42,12 @@ public class IndianStateCensusAndCodeAnalyser
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
-        catch (RuntimeException e)
-        {
-            throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
-                    IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
-        }
     }
 
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
      * @param csvFilePath provides the path of file
-     * @param separator provides the seperator in csv file
+     * @param separator provides the seperator for records in csv file
      * @return number of records
      * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
      */
@@ -65,12 +55,7 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            CsvToBean<IndiaStateCodeCSV> csvToBean = new CsvToBeanBuilder<IndiaStateCodeCSV>(reader)
-                    .withType(IndiaStateCodeCSV.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .withSeparator(separator)
-                    .build();
-            Iterator<IndiaStateCodeCSV> codeCSVIterator = csvToBean.iterator();
+            Iterator<IndiaStateCodeCSV> codeCSVIterator = this.getCSVFileIterator(reader, IndiaStateCodeCSV.class, separator);
             Iterable<IndiaStateCodeCSV> codeData = () -> codeCSVIterator;
             int numberOfEntries = (int) StreamSupport.stream(codeData.spliterator(), false).count();
             return numberOfEntries;
@@ -84,6 +69,29 @@ public class IndianStateCensusAndCodeAnalyser
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
+        }
+    }
+
+    /**
+     * METHOD TO GET CSV CLASS ITERATOR
+     * @param reader provides object of Reader to read the file
+     * @param csvClass provides type of csv class
+     * @param separator provides the separator for records in csv file
+     * @param <E> provides generic class type
+     * @return csvToBean object
+     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
+     */
+    private <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass, char separator)
+            throws IndianStateCensusAndCodeAnalyserException
+    {
+        try
+        {
+            CsvToBean<E> csvToBean = new CsvToBeanBuilder<E>(reader)
+                    .withType(csvClass)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withSeparator(separator)
+                    .build();
+            return csvToBean.iterator();
         }
         catch (RuntimeException e)
         {
