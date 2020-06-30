@@ -16,10 +16,10 @@ public class OpenCSVBuilder implements ICSVBuilder
      * @param separator provides the separator for records in csv file
      * @param <E> provides generic class type
      * @return csvToBean object
-     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
+     * @throws CSVBuilderException while handling the occurred exception
      */
     public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass, char separator)
-            throws IndianStateCensusAndCodeAnalyserException
+            throws CSVBuilderException
     {
         try
         {
@@ -32,8 +32,8 @@ public class OpenCSVBuilder implements ICSVBuilder
         }
         catch (RuntimeException e)
         {
-            throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
-                    IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
+            throw new CSVBuilderException("Entered incorrect Delimiter or incorrect Header",
+                    CSVBuilderException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
         }
     }
 }

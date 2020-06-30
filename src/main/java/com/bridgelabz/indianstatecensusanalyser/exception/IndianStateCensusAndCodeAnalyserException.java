@@ -14,4 +14,10 @@ public class IndianStateCensusAndCodeAnalyserException extends Exception
         super(message);
         this.type = type;
     }
+
+    public IndianStateCensusAndCodeAnalyserException(String message, String name)
+    {
+        super(message);
+        this.type = ExceptionType.valueOf(name);
+    }
 }

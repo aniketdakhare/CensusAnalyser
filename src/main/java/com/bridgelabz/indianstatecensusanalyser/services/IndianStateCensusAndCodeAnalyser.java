@@ -3,6 +3,7 @@ package com.bridgelabz.indianstatecensusanalyser.services;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
+import com.bridgelabz.indianstatecensusanalyser.utility.CSVBuilderException;
 import com.bridgelabz.indianstatecensusanalyser.utility.CSVBuilderFactory;
 
 import java.io.IOException;
@@ -40,6 +41,10 @@ public class IndianStateCensusAndCodeAnalyser
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
+        catch (CSVBuilderException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(), e.type.name());
+        }
     }
 
     /**
@@ -66,6 +71,10 @@ public class IndianStateCensusAndCodeAnalyser
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
+        }
+        catch (CSVBuilderException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(), e.type.name());
         }
     }
 
