@@ -25,7 +25,7 @@ public class IndianStateCensusAndCodeAnalyserTest
         {
             int numOfRecords = stateAnalyser.loadIndiaCensusData("./src/test/resources/" +
                     "IndiaStateCensusData.csv", ',');
-            Assert.assertEquals(29,numOfRecords);
+            Assert.assertEquals(29, numOfRecords);
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
