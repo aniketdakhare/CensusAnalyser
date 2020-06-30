@@ -1,7 +1,5 @@
 package com.bridgelabz.indianstatecensusanalyser.utility;
 
-import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
-
 import java.io.Reader;
 import java.util.Iterator;
 
