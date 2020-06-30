@@ -28,9 +28,7 @@ public class IndianStateCensusAndCodeAnalyser
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
             Iterator<IndiaCensusCSV> censusCSVIterator = this.getCSVFileIterator(reader, IndiaCensusCSV.class, separator);
-            Iterable<IndiaCensusCSV> censusData = () -> censusCSVIterator;
-            int numberOfEntries = (int) StreamSupport.stream(censusData.spliterator(), false).count();
-            return numberOfEntries;
+            return this.getCount(censusCSVIterator);
         }
         catch (NoSuchFileException e)
         {
@@ -56,9 +54,7 @@ public class IndianStateCensusAndCodeAnalyser
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
             Iterator<IndiaStateCodeCSV> codeCSVIterator = this.getCSVFileIterator(reader, IndiaStateCodeCSV.class, separator);
-            Iterable<IndiaStateCodeCSV> codeData = () -> codeCSVIterator;
-            int numberOfEntries = (int) StreamSupport.stream(codeData.spliterator(), false).count();
-            return numberOfEntries;
+            return this.getCount(codeCSVIterator);
         }
         catch (NoSuchFileException e)
         {
@@ -70,6 +66,13 @@ public class IndianStateCensusAndCodeAnalyser
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
+    }
+
+    private <E> int getCount(Iterator<E> iterator)
+    {
+        Iterable<E> codeData = () -> iterator;
+        int numberOfEntries = (int) StreamSupport.stream(codeData.spliterator(), false).count();
+        return numberOfEntries;
     }
 
     /**
