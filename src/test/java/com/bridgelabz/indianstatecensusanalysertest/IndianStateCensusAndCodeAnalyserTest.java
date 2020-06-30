@@ -92,7 +92,7 @@ public class IndianStateCensusAndCodeAnalyserTest
         {
             int numOfRecords = stateAnalyser.loadIndiaStateCode("./src/test/resources" +
                     "/IndiaStateCode.csv", ',');
-            Assert.assertEquals(37,numOfRecords);
+            Assert.assertEquals(37, numOfRecords);
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
