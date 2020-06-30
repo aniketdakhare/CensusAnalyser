@@ -1,10 +1,10 @@
 package com.bridgelabz.indianstatecensusanalyser.services;
 
+import com.bridgelabz.csvbuilderjar.CSVBuilderException;
+import com.bridgelabz.csvbuilderjar.CSVBuilderFactory;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
-import com.bridgelabz.indianstatecensusanalyser.utility.CSVBuilderException;
-import com.bridgelabz.indianstatecensusanalyser.utility.CSVBuilderFactory;
 
 import java.io.IOException;
 import java.io.Reader;
