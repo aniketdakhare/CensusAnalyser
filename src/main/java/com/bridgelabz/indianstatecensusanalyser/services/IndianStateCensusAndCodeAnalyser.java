@@ -7,11 +7,11 @@ import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,6 +19,9 @@ public class IndianStateCensusAndCodeAnalyser
 {
     List<IndiaCensusCSV> censusCSVList = null;
     List<IndiaStateCodeCSV> stateCodeCSVList = null;
+    private static final String SORTED_BY_POPULATION_JSON_PATH = "./IndiaStateCensusSortedByPopulation.json";
+    private static final String SORTED_BY_POPULATION_DENSITY_JSON_PATH = "./IndiaStateCensusSortedByDensity.json";
+
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
      * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
@@ -93,6 +96,25 @@ public class IndianStateCensusAndCodeAnalyser
         }
     }
 
+    public List<IndiaCensusCSV> jsonFileCreater(String sortedCensusData, String filePath)
+            throws IndianStateCensusAndCodeAnalyserException
+    {
+        BufferedReader bufferedReader;
+        try(FileWriter writer = new FileWriter(filePath);)
+        {
+            writer.write(sortedCensusData);
+            bufferedReader = new BufferedReader(new FileReader(filePath));
+        }
+        catch (IOException | NullPointerException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
+        }
+        IndiaCensusCSV[] censusList = new Gson().fromJson(bufferedReader, IndiaCensusCSV[].class);
+        List<IndiaCensusCSV> censusCSVList = Arrays.asList(censusList);
+        return censusCSVList;
+    }
+
     public String getSortedCensusDataAsPerState()
     {
         censusCSVList.sort(((Comparator<IndiaCensusCSV>)
@@ -109,19 +131,19 @@ public class IndianStateCensusAndCodeAnalyser
         return sortedStateCodeData;
     }
 
-    public String getSortedCensusDataAsPerPopulation()
+    public int getSortedCensusDataAsPerPopulation() throws IndianStateCensusAndCodeAnalyserException
     {
         censusCSVList.sort((censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population));
         String sortedCensusData = new Gson().toJson(censusCSVList);
-        return sortedCensusData;
+        return jsonFileCreater(sortedCensusData, SORTED_BY_POPULATION_JSON_PATH).size();
     }
 
-    public String getSortedCensusDataAsPerPopulationDensity()
+    public List getSortedCensusDataAsPerPopulationDensity() throws IndianStateCensusAndCodeAnalyserException
     {
         censusCSVList.sort((censusData1, censusData2) -> censusData2.densityPerSqKm
                 .compareTo(censusData1.densityPerSqKm));
         String sortedCensusData = new Gson().toJson(censusCSVList);
-        return sortedCensusData;
+        return jsonFileCreater(sortedCensusData, SORTED_BY_POPULATION_DENSITY_JSON_PATH);
     }
 
     public String getSortedCensusDataAsPerAreaInSquareKm()
