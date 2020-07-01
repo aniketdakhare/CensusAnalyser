@@ -4,20 +4,19 @@ import com.bridgelabz.csvbuilderjar.CSVBuilderException;
 import com.bridgelabz.csvbuilderjar.CSVBuilderFactory;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
-import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.stream.StreamSupport;
+import java.util.List;
 
 public class IndianStateCensusAndCodeAnalyser
 {
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
+     * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
      * @param csvFilePath provides the path of file
      * @param separator provides the seperator for records in csv file
      * @return number of records
@@ -27,9 +26,9 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            Iterator<IndiaCensusCSV> censusCSVIterator = CSVBuilderFactory.createCSVBuilder()
-                    .getCSVFileIterator(reader, IndiaCensusCSV.class, separator);
-            return this.getCount(censusCSVIterator);
+            List<IndiaCensusCSV> censusCSVList = CSVBuilderFactory.createCSVBuilder(1)
+                    .getCSVFileList(reader, IndiaCensusCSV.class, separator);
+            return censusCSVList.size();
         }
         catch (NoSuchFileException e)
         {
@@ -40,6 +39,11 @@ public class IndianStateCensusAndCodeAnalyser
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
+        }
+        catch (RuntimeException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
         }
         catch (CSVBuilderException e)
         {
@@ -49,6 +53,7 @@ public class IndianStateCensusAndCodeAnalyser
 
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
+     * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
      * @param csvFilePath provides the path of file
      * @param separator provides the seperator for records in csv file
      * @return number of records
@@ -58,9 +63,9 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            Iterator<IndiaStateCodeCSV> codeCSVIterator = CSVBuilderFactory.createCSVBuilder()
-                    .getCSVFileIterator(reader, IndiaStateCodeCSV.class, separator);
-            return this.getCount(codeCSVIterator);
+            List<IndiaCensusCSV> codeCSVList = CSVBuilderFactory.createCSVBuilder(0)
+                    .getCSVFileList(reader, IndiaCensusCSV.class, separator);
+            return codeCSVList.size();
         }
         catch (NoSuchFileException e)
         {
@@ -72,22 +77,14 @@ public class IndianStateCensusAndCodeAnalyser
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(),
                     IndianStateCensusAndCodeAnalyserException.ExceptionType.CSV_FILE_PROBLEM);
         }
+        catch (RuntimeException e)
+        {
+            throw new IndianStateCensusAndCodeAnalyserException("Entered incorrect Delimiter or incorrect Header",
+                    IndianStateCensusAndCodeAnalyserException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER);
+        }
         catch (CSVBuilderException e)
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(), e.type.name());
         }
-    }
-
-    /**
-     * METHOD TO GET COUNT OF NUMBER OF RECORDS
-     * @param iterator provides object of iterator for specific csv class
-     * @param <E> provides generic class type
-     * @return count of records
-     */
-    private <E> int getCount(Iterator<E> iterator)
-    {
-        Iterable<E> codeData = () -> iterator;
-        int numberOfEntries = (int) StreamSupport.stream(codeData.spliterator(), false).count();
-        return numberOfEntries;
     }
 }

@@ -17,6 +17,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.+'
     compile "com.opencsv:opencsv:4.0"
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files("C:\\Users\\Aniket\\IdeaProjects\\CSVBuilderJAR\\out\\artifacts\\CSVBuilderJAR_jar\\CSVBuilderJAR.jar")
 
 }
