@@ -4,6 +4,7 @@ import com.bridgelabz.csvbuilderjar.CSVBuilderException;
 import com.bridgelabz.csvbuilderjar.CSVBuilderFactory;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
+import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.List;
 public class IndianStateCensusAndCodeAnalyser
 {
     List<IndiaCensusCSV> censusCSVList = null;
-
+    List<IndiaStateCodeCSV> stateCodeCSVList = null;
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
      * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
@@ -67,9 +68,9 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            List<IndiaCensusCSV> codeCSVList = CSVBuilderFactory.createCSVBuilder(0)
-                    .getCSVFileList(reader, IndiaCensusCSV.class, separator);
-            return codeCSVList.size();
+            stateCodeCSVList = CSVBuilderFactory.createCSVBuilder(0)
+                    .getCSVFileList(reader, IndiaStateCodeCSV.class, separator);
+            return stateCodeCSVList.size();
         }
         catch (NoSuchFileException e)
         {
@@ -92,11 +93,19 @@ public class IndianStateCensusAndCodeAnalyser
         }
     }
 
-    public String getSortedAsPerState()
+    public String getSortedCensusDataAsPerState()
     {
         censusCSVList.sort(((Comparator<IndiaCensusCSV>)
                 (censusData1, censusData2) -> censusData2.state.compareTo(censusData1.state)).reversed());
         String sortedCensusData = new Gson().toJson(censusCSVList);
         return sortedCensusData;
+    }
+
+    public String getSortedStateCodeDataAsPerState()
+    {
+        stateCodeCSVList.sort(((Comparator<IndiaStateCodeCSV>) (stateCodeData1, stateCodeData2) -> stateCodeData2
+                .StateCode.compareTo(stateCodeData1.StateCode)).reversed());
+        String sortedStateCodeData = new Gson().toJson(stateCodeCSVList);
+        return sortedStateCodeData;
     }
 }
