@@ -251,4 +251,19 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedByArea_ShouldReturnFirstStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
+            List sortedCensus = stateAnalyser.getSortedCensusDataAsPerAreaInSquareKm();
+            Assert.assertEquals(29, sortedCensus.size());
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
