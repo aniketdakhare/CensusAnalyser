@@ -219,4 +219,36 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedByPopulation_ShouldReturnFirstStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulation();
+            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
+            Assert.assertThat(censusList[0].state, CoreMatchers.is("Sikkim"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedByPopulation_ShouldReturnLastStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulation();
+            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
+            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Uttar Pradesh"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
