@@ -111,8 +111,15 @@ public class IndianStateCensusAndCodeAnalyser
 
     public String getSortedCensusDataAsPerPopulation()
     {
-        censusCSVList.sort(((Comparator<IndiaCensusCSV>)
-                (censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population)).reversed());
+        censusCSVList.sort((censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population));
+        String sortedCensusData = new Gson().toJson(censusCSVList);
+        return sortedCensusData;
+    }
+
+    public String getSortedCensusDataAsPerPopulationDensity()
+    {
+        censusCSVList.sort((censusData1, censusData2) -> censusData2.densityPerSqKm
+                                                                            .compareTo(censusData1.densityPerSqKm));
         String sortedCensusData = new Gson().toJson(censusCSVList);
         return sortedCensusData;
     }
