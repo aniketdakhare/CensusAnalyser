@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.List;
+
 public class IndianStateCensusAndCodeAnalyserTest
 {
     IndianStateCensusAndCodeAnalyser stateAnalyser;
@@ -226,89 +228,8 @@ public class IndianStateCensusAndCodeAnalyserTest
         try
         {
             stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulation();
-            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
-            Assert.assertThat(censusList[0].state, CoreMatchers.is("Uttar Pradesh"));
-        }
-        catch (IndianStateCensusAndCodeAnalyserException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void givenIndianCensusData_WhenSortedByPopulation_ShouldReturnLastStateInList()
-    {
-        try
-        {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulation();
-            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
-            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Sikkim"));
-        }
-        catch (IndianStateCensusAndCodeAnalyserException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void givenIndianCensusData_WhenSortedByPopulationDensity_ShouldReturnFirstStateInList()
-    {
-        try
-        {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulationDensity();
-            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
-            Assert.assertThat(censusList[0].state, CoreMatchers.is("Bihar"));
-        }
-        catch (IndianStateCensusAndCodeAnalyserException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void givenIndianCensusData_WhenSortedByPopulationDensity_ShouldReturnLastStateInList()
-    {
-        try
-        {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulationDensity();
-            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
-            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Arunachal Pradesh"));
-        }
-        catch (IndianStateCensusAndCodeAnalyserException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void givenIndianCensusData_WhenSortedByArea_ShouldReturnFirstStateInList()
-    {
-        try
-        {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerAreaInSquareKm();
-            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
-            Assert.assertThat(censusList[0].state, CoreMatchers.is("Rajasthan"));
-        }
-        catch (IndianStateCensusAndCodeAnalyserException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void givenIndianCensusData_WhenSortedByArea_ShouldReturnLastStateInList()
-    {
-        try
-        {
-            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedCensusDataAsPerAreaInSquareKm();
-            IndiaCensusCSV[] censusList = new Gson().fromJson(sortedCensus, IndiaCensusCSV[].class);
-            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Goa"));
+            int sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulation();
+            Assert.assertEquals(29, sortedCensus);
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
