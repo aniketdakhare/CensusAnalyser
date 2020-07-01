@@ -236,4 +236,19 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedByPopulationDensity_ShouldReturnFirstStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadIndiaCensusData("./src/test/resources/IndiaStateCensusData.csv", ',');
+            List sortedCensus = stateAnalyser.getSortedCensusDataAsPerPopulationDensity();
+            Assert.assertEquals(29, sortedCensus.size());
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
