@@ -108,4 +108,12 @@ public class IndianStateCensusAndCodeAnalyser
         String sortedStateCodeData = new Gson().toJson(stateCodeCSVList);
         return sortedStateCodeData;
     }
+
+    public String getSortedCensusDataAsPerPopulation()
+    {
+        censusCSVList.sort(((Comparator<IndiaCensusCSV>)
+                (censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population)).reversed());
+        String sortedCensusData = new Gson().toJson(censusCSVList);
+        return sortedCensusData;
+    }
 }
