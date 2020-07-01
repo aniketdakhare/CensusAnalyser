@@ -4,16 +4,20 @@ import com.bridgelabz.csvbuilderjar.CSVBuilderException;
 import com.bridgelabz.csvbuilderjar.CSVBuilderFactory;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 
 public class IndianStateCensusAndCodeAnalyser
 {
+    List<IndiaCensusCSV> censusCSVList = null;
+
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
      * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
@@ -26,7 +30,7 @@ public class IndianStateCensusAndCodeAnalyser
     {
         try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            List<IndiaCensusCSV> censusCSVList = CSVBuilderFactory.createCSVBuilder(1)
+            censusCSVList = CSVBuilderFactory.createCSVBuilder(0)
                     .getCSVFileList(reader, IndiaCensusCSV.class, separator);
             return censusCSVList.size();
         }
@@ -86,5 +90,13 @@ public class IndianStateCensusAndCodeAnalyser
         {
             throw new IndianStateCensusAndCodeAnalyserException(e.getMessage(), e.type.name());
         }
+    }
+
+    public String getSortedAsPerState()
+    {
+        censusCSVList.sort(((Comparator<IndiaCensusCSV>)
+                (censusData1, censusData2) -> censusData2.state.compareTo(censusData1.state)).reversed());
+        String sortedCensusData = new Gson().toJson(censusCSVList);
+        return sortedCensusData;
     }
 }
