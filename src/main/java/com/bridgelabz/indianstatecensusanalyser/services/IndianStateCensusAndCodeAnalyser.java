@@ -123,4 +123,11 @@ public class IndianStateCensusAndCodeAnalyser
         String sortedCensusData = new Gson().toJson(censusCSVList);
         return sortedCensusData;
     }
+
+    public String getSortedCensusDataAsPerAreaInSquareKm()
+    {
+        censusCSVList.sort((censusData1, censusData2) -> censusData2.areaInSqKm.compareTo(censusData1.areaInSqKm));
+        String sortedCensusData = new Gson().toJson(censusCSVList);
+        return sortedCensusData;
+    }
 }
