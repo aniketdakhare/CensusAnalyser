@@ -266,4 +266,17 @@ public class IndianStateCensusAndCodeAnalyser
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
     }
+
+    /**
+     * METHOD TO SORT US STATE CENSUS DATA AS PER TOTAL AREA
+     */
+    public String getSortedUSCensusDataAsPerTotalArea()
+    {
+        List<CensusDAO> censusList = censusMap.values().stream()
+                .sorted((censusData1, censusData2) -> censusData2.totalArea
+                        .compareTo(censusData1.totalArea))
+                .collect(Collectors.toList());
+        String sortedCensusData = new Gson().toJson(censusList);
+        return sortedCensusData;
+    }
 }
