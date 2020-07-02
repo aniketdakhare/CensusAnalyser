@@ -3,6 +3,7 @@ package com.bridgelabz.indianstatecensusanalysertest;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaStateCodeCSV;
+import com.bridgelabz.indianstatecensusanalyser.model.USCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.services.IndianStateCensusAndCodeAnalyser;
 import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
@@ -275,6 +276,38 @@ public class IndianStateCensusAndCodeAnalyserTest
             int numOfRecords = stateAnalyser.loadUSCensusData("./src/test/resources/" +
                     "USCensusData.csv", ',');
             Assert.assertEquals(51, numOfRecords);
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnState_ShouldReturnFirstStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerState();
+            USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
+            Assert.assertThat(censusList[0].state, CoreMatchers.is("Alabama"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnState_ShouldReturnLastStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerState();
+            USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
+            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Wyoming"));
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
