@@ -243,12 +243,25 @@ public class IndianStateCensusAndCodeAnalyser
     }
 
     /**
-     * METHOD TO SORT US STATE CENSUS DATA AS PER STATE
+     * METHOD TO SORT US STATE CENSUS DATA AS PER POPULATION
      */
     public String getSortedUSCensusDataAsPerPopulation()
     {
         List<CensusDAO> censusList = censusMap.values().stream()
                 .sorted((censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population))
+                .collect(Collectors.toList());
+        String sortedCensusData = new Gson().toJson(censusList);
+        return sortedCensusData;
+    }
+
+    /**
+     * METHOD TO SORT US STATE CENSUS DATA AS PER POPULATION DENSITY
+     */
+    public String getSortedUSCensusDataAsPerPopulationDensity()
+    {
+        List<CensusDAO> censusList = censusMap.values().stream()
+                .sorted((censusData1, censusData2) -> censusData2.populationDensity
+                        .compareTo(censusData1.populationDensity))
                 .collect(Collectors.toList());
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
