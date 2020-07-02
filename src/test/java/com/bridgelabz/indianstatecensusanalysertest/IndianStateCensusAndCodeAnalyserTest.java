@@ -266,4 +266,19 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenUSCensusCSVFile_ReturnsCorrectRecords()
+    {
+        try
+        {
+            int numOfRecords = stateAnalyser.loadUSCensusData("./src/test/resources/" +
+                    "USCensusData.csv", ',');
+            Assert.assertEquals(51, numOfRecords);
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
