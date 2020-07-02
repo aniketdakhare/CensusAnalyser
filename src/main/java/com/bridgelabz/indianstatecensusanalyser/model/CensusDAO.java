@@ -10,8 +10,6 @@ public class CensusDAO
     public Integer densityPerSqKm;
 
     public String stateId;
-    //public String state;
-    //public Integer population;
     public Integer housingUnits;
     public Double totalArea;
     public Double waterArea;

@@ -112,7 +112,7 @@ public class IndianStateCensusAndCodeAnalyser
     }
 
     /**
-     * METHOD TO LOAD INDIAN STATE CENSUS DATA
+     * METHOD TO LOAD US STATE CENSUS DATA
      * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
      * @param csvFilePath provides the path of file
      * @param separator provides the seperator for records in csv file
@@ -240,5 +240,17 @@ public class IndianStateCensusAndCodeAnalyser
                 .collect(Collectors.toList());
         String sortedCensusData = new Gson().toJson(censusList);
         return jsonFileCreater(sortedCensusData, SORTED_BY_AREA_JSON_PATH);
+    }
+
+    /**
+     * METHOD TO SORT US STATE CENSUS DATA AS PER STATE
+     */
+    public String getSortedUSCensusDataAsPerPopulation()
+    {
+        List<CensusDAO> censusList = censusMap.values().stream()
+                .sorted((censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population))
+                .collect(Collectors.toList());
+        String sortedCensusData = new Gson().toJson(censusList);
+        return sortedCensusData;
     }
 }
