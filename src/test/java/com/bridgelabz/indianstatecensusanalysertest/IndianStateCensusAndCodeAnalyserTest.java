@@ -284,7 +284,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     }
 
     @Test
-    public void givenUSCensusData_WhenSortedOnState_ShouldReturnFirstStateInList()
+    public void givenUSCensusData_WhenSortedByPopulation_ShouldReturnFirstStateInList()
     {
         try
         {
@@ -300,7 +300,7 @@ public class IndianStateCensusAndCodeAnalyserTest
     }
 
     @Test
-    public void givenUSCensusData_WhenSortedOnState_ShouldReturnLastStateInList()
+    public void givenUSCensusData_WhenSortedByPopulation_ShouldReturnLastStateInList()
     {
         try
         {
@@ -308,6 +308,38 @@ public class IndianStateCensusAndCodeAnalyserTest
             String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerPopulation();
             USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
             Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Wyoming"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByPopulationDensity_ShouldReturnFirstStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerPopulationDensity();
+            USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
+            Assert.assertThat(censusList[0].state, CoreMatchers.is("District of Columbia"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByPopulationDensity_ShouldReturnLastStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerPopulationDensity();
+            USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
+            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Alaska"));
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
