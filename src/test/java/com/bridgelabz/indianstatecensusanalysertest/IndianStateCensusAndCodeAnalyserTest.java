@@ -289,9 +289,9 @@ public class IndianStateCensusAndCodeAnalyserTest
         try
         {
             stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerState();
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerPopulation();
             USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
-            Assert.assertThat(censusList[0].state, CoreMatchers.is("Alabama"));
+            Assert.assertThat(censusList[0].state, CoreMatchers.is("California"));
         }
         catch (IndianStateCensusAndCodeAnalyserException e)
         {
@@ -305,7 +305,7 @@ public class IndianStateCensusAndCodeAnalyserTest
         try
         {
             stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
-            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerState();
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerPopulation();
             USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
             Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("Wyoming"));
         }
