@@ -346,4 +346,36 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByTotalArea_ShouldReturnFirstStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerTotalArea();
+            USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
+            Assert.assertThat(censusList[0].state, CoreMatchers.is("Alaska"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByTotalArea_ShouldReturnLastStateInList()
+    {
+        try
+        {
+            stateAnalyser.loadUSCensusData("./src/test/resources/USCensusData.csv", ',');
+            String sortedCensus = stateAnalyser.getSortedUSCensusDataAsPerTotalArea();
+            USCensusCSV[] censusList = new Gson().fromJson(sortedCensus, USCensusCSV[].class);
+            Assert.assertThat(censusList[censusList.length-1].state, CoreMatchers.is("District of Columbia"));
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
