@@ -1,3 +1,4 @@
+
 package com.bridgelabz.indianstatecensusanalyser.model;
 
 import com.opencsv.bean.CsvBindByName;
@@ -13,23 +14,11 @@ public class USCensusCSV
     @CsvBindByName(column = "Population", required = true)
     public Integer population;
 
-    @CsvBindByName(column = "Housing units", required = true)
-    public Integer housingUnits;
-
     @CsvBindByName(column = "Total area", required = true)
-    public Double totalArea;
-
-    @CsvBindByName(column = "Water area", required = true)
-    public Double waterArea;
-
-    @CsvBindByName(column = "Land area", required = true)
-    public Double landArea;
+    public double totalArea;
 
     @CsvBindByName(column = "Population Density", required = true)
-    public Double populationDensity;
-
-    @CsvBindByName(column = "Housing Density", required = true)
-    public Double housingDensity;
+    public double populationDensity;
 
     @Override
     public String toString() {
@@ -37,12 +26,8 @@ public class USCensusCSV
                 "stateId=" + stateId +
                 ", state='" + state + '\'' +
                 ", population=" + population +
-                ", housingUnits=" + housingUnits +
                 ", totalArea='" + totalArea + '\'' +
-                ", waterArea=" + waterArea +
-                ", landArea='" + landArea + '\'' +
                 ", populationDensity=" + populationDensity +
-                ", housingDensity=" + housingDensity +
                 '}';
     }
 }
