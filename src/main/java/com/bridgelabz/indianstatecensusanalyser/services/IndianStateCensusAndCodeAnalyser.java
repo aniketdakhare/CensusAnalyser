@@ -262,4 +262,17 @@ public class IndianStateCensusAndCodeAnalyser
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
     }
+
+    public String xyz(String csvFilePath1, String csvFilePath2, char separator)
+            throws IndianStateCensusAndCodeAnalyserException
+    {
+        this.loadIndiaCensusData(csvFilePath1, separator);
+        CensusDAO[] censusList1 = new Gson().fromJson(this.getSortedCensusDataAsPerPopulationDensity(), CensusDAO[].class);
+        this.loadUSCensusData(csvFilePath2,separator);
+        CensusDAO[] censusList2 = new Gson().fromJson(this.getSortedCensusDataAsPerPopulationDensity(), CensusDAO[].class);
+        if (Double.compare(censusList1[0].populationDensity, censusList2[0].populationDensity) > 0)
+            return censusList1[0].state;
+        else
+            return censusList2[0].state;
+    }
 }
