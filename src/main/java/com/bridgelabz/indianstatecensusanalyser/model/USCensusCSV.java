@@ -1,4 +1,3 @@
-
 package com.bridgelabz.indianstatecensusanalyser.model;
 
 import com.opencsv.bean.CsvBindByName;

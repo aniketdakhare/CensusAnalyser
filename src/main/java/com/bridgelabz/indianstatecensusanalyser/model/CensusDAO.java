@@ -1,4 +1,3 @@
-
 package com.bridgelabz.indianstatecensusanalyser.model;
 
 public class CensusDAO
@@ -26,4 +25,3 @@ public class CensusDAO
         stateCode = usCensusCSV.stateId;
     }
 }
-
