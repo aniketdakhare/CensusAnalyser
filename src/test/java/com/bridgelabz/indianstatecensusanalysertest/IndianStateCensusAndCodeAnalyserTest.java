@@ -385,7 +385,8 @@ public class IndianStateCensusAndCodeAnalyserTest
     {
         try
         {
-            String mostDenselyPopulated = stateAnalyser.xyz("./src/test/resources/IndiaStateCensusData.csv",
+            String mostDenselyPopulated = stateAnalyser.getMostDenselyPopulatedState
+                    ("./src/test/resources/IndiaStateCensusData.csv",
                     "./src/test/resources/USCensusData.csv", ',');
             Assert.assertEquals("District of Columbia", mostDenselyPopulated);
         }
