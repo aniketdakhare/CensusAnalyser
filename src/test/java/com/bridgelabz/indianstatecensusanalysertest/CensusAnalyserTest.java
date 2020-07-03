@@ -2,7 +2,7 @@ package com.bridgelabz.indianstatecensusanalysertest;
 
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.CensusDAO;
-import com.bridgelabz.indianstatecensusanalyser.services.IndianStateCensusAndCodeAnalyser;
+import com.bridgelabz.indianstatecensusanalyser.services.CensusAnalyser;
 import com.google.gson.Gson;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -12,13 +12,13 @@ import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
-public class IndianStateCensusAndCodeAnalyserTest
+public class CensusAnalyserTest
 {
-    IndianStateCensusAndCodeAnalyser stateAnalyser;
+    CensusAnalyser stateAnalyser;
     @Before
     public void reusableObjects()
     {
-        stateAnalyser = new IndianStateCensusAndCodeAnalyser();
+        stateAnalyser = new CensusAnalyser();
         ExpectedException exceptionRule = ExpectedException.none();
         exceptionRule.expect(IndianStateCensusAndCodeAnalyserException.class);
     }
