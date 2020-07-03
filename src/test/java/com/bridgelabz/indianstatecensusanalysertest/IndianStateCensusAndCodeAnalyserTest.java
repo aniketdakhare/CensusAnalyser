@@ -379,4 +379,19 @@ public class IndianStateCensusAndCodeAnalyserTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenUSCensusData_WhenSortedByTotalArea_ShouldReturnLastStateInLis()
+    {
+        try
+        {
+            String mostDenselyPopulated = stateAnalyser.xyz("./src/test/resources/IndiaStateCensusData.csv",
+                    "./src/test/resources/USCensusData.csv", ',');
+            Assert.assertEquals("District of Columbia", mostDenselyPopulated);
+        }
+        catch (IndianStateCensusAndCodeAnalyserException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
