@@ -18,52 +18,22 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
-public class CSVFileLoader
+public class CensusLoader
 {
-    Map<String, CensusDAO> censusMap;
-
-    public CSVFileLoader()
-    {
-        this.censusMap = new HashMap<>();
-    }
-
-    /**
-     * METHOD TO LOAD INDIAN STATE CENSUS DATA
-     * @param csvFilePath provides the path of file
-     * @param separator provides the seperator for records in csv file
-     * @return number of records
-     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
-     */
-    public int loadIndiaCensusData(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
-    {
-        return this.loadCensusData(csvFilePath, separator, IndiaCensusCSV.class);
-    }
-
-    /**
-     * METHOD TO LOAD US STATE CENSUS DATA
-     * @param csvFilePath provides the path of file
-     * @param separator provides the seperator for records in csv file
-     * @return number of records
-     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
-     */
-    public int loadUSCensusData(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
-    {
-        return this.loadCensusData(csvFilePath, separator, USCensusCSV.class);
-    }
-
     /**
      * METHOD TO LOAD INDIAN STATE CENSUS DATA
      * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
-     * @param csvFilePath provides the path of file
-     * @param separator provides the seperator for records in csv file
      * @param <E> gives generic class type
+     * @param separator provides the seperator for records in csv file
+     * @param csvFilePath provides the path of file
      * @return number of records
      * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
      */
-    private <E> int loadCensusData(String csvFilePath, char separator, Class<E> censusCSVClass)
+    public <E> Map<String, CensusDAO> loadCensusData(char separator, Class<E> censusCSVClass, String... csvFilePath)
             throws IndianStateCensusAndCodeAnalyserException
     {
-        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
+        Map<String, CensusDAO> censusMap = new HashMap<>();
+        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0])))
         {
             Iterator<E> censusIterator = CSVBuilderFactory.createCSVBuilder(0)
                     .getCSVFileIterator(reader, censusCSVClass, separator);
@@ -81,7 +51,9 @@ public class CSVFileLoader
                             .forEach(csvState -> censusMap.put(csvState.state, new CensusDAO(csvState)));
                     break;
             }
-            return censusMap.size();
+            if (csvFilePath.length == 1) return censusMap;
+            loadIndiaStateCode(csvFilePath[1], separator, censusMap);
+            return censusMap;
         }
         catch (NoSuchFileException e)
         {
@@ -109,10 +81,11 @@ public class CSVFileLoader
      * Note:- Pass argument as '0' for OpenCSV and '1' for CommonCSV in createCSVBuilder method
      * @param csvFilePath provides the path of file
      * @param separator provides the seperator for records in csv file
-     * @return number of records
+     * @param censusMap provides the Indian census map
      * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
      */
-    public int loadIndiaStateCode(String csvFilePath, char separator) throws IndianStateCensusAndCodeAnalyserException
+    private void loadIndiaStateCode(String csvFilePath, char separator, Map<String, CensusDAO> censusMap)
+            throws IndianStateCensusAndCodeAnalyserException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
@@ -122,7 +95,6 @@ public class CSVFileLoader
             StreamSupport.stream(csvIterable.spliterator(), false)
                     .filter(csvState -> censusMap.get(csvState.StateName) != null)
                     .forEach(csvState -> censusMap.get(csvState.StateName).stateCode = csvState.StateCode);
-            return censusMap.size();
         }
         catch (NoSuchFileException e)
         {

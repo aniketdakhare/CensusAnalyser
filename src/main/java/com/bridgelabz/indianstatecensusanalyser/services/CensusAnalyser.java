@@ -3,17 +3,47 @@ package com.bridgelabz.indianstatecensusanalyser.services;
 import com.bridgelabz.indianstatecensusanalyser.exception.IndianStateCensusAndCodeAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.CensusDAO;
+import com.bridgelabz.indianstatecensusanalyser.model.USCensusCSV;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CensusAnalyser extends CSVFileLoader
+public class CensusAnalyser
 {
+    Map<String, CensusDAO> censusMap;
     private static final String SORTED_BY_POPULATION_JSON_PATH = "./IndiaStateCensusSortedByPopulation.json";
     private static final String SORTED_BY_POPULATION_DENSITY_JSON_PATH = "./IndiaStateCensusSortedByDensity.json";
     private static final String SORTED_BY_AREA_JSON_PATH = "./IndiaStateCensusSortedByArea.json";
+
+    /**
+     * METHOD TO LOAD INDIAN STATE CENSUS DATA
+     * @param csvFilePath provides the path of file
+     * @param separator provides the seperator for records in csv file
+     * @return number of records
+     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
+     */
+    public int loadIndiaCensusData(char separator, String... csvFilePath)
+            throws IndianStateCensusAndCodeAnalyserException
+    {
+        censusMap = new CensusLoader().loadCensusData(separator, IndiaCensusCSV.class, csvFilePath);
+        return censusMap.size();
+    }
+
+    /**
+     * METHOD TO LOAD US STATE CENSUS DATA
+     * @param csvFilePath provides the path of file
+     * @param separator provides the seperator for records in csv file
+     * @return number of records
+     * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
+     */
+    public int loadUSCensusData(char separator, String... csvFilePath) throws IndianStateCensusAndCodeAnalyserException
+    {
+        censusMap = new CensusLoader().loadCensusData(separator, USCensusCSV.class, csvFilePath);
+        return censusMap.size();
+    }
+
 
     /**
      * METHOD TO CREATE JSON FILE FOR INDIAN STATE CENSUS DATA
@@ -58,7 +88,7 @@ public class CensusAnalyser extends CSVFileLoader
     {
         List<CensusDAO> stateCodeList = censusMap.values().stream()
                 .sorted(((Comparator<CensusDAO>) (stateCodeData1, stateCodeData2) -> stateCodeData2
-                .stateCode.compareTo(stateCodeData1.stateCode)).reversed())
+                        .stateCode.compareTo(stateCodeData1.stateCode)).reversed())
                 .collect(Collectors.toList());
         String sortedStateCodeData = new Gson().toJson(stateCodeList);
         return sortedStateCodeData;
@@ -132,22 +162,20 @@ public class CensusAnalyser extends CSVFileLoader
 
     /**
      * METHOD TO GET MOST DENSELY POPULATED STATE AMONG INDIA AND US
-     * @param csvFilePath1 provides CSV file path for IndiaCensusCSV file
-     * @param csvFilePath2 provides CSV file path for USCensusCSV file
+     * @param csvFilePath provides CSV file path for IndiaCensusCSV and USCensusCSV file
      * @param separator provides the seperator for records in csv file
      * @return most densely populated state
      * @throws IndianStateCensusAndCodeAnalyserException while handling the occurred exception
      */
-    public String getMostDenselyPopulatedState(String csvFilePath1, String csvFilePath2, char separator)
+    public String getMostDenselyPopulatedState(char separator, String... csvFilePath)
             throws IndianStateCensusAndCodeAnalyserException
     {
-        this.loadIndiaCensusData(csvFilePath1, separator);
+        this.loadIndiaCensusData(separator, csvFilePath[0]);
         CensusDAO[] censusList1 = new Gson().fromJson(this.getSortedCensusDataAsPerPopulationDensity(), CensusDAO[].class);
-        this.loadUSCensusData(csvFilePath2, separator);
+        this.loadUSCensusData(separator, csvFilePath[1]);
         CensusDAO[] censusList2 = new Gson().fromJson(this.getSortedCensusDataAsPerPopulationDensity(), CensusDAO[].class);
         if (Double.compare(censusList1[0].populationDensity, censusList2[0].populationDensity) > 0)
             return censusList1[0].state;
-        else
-            return censusList2[0].state;
+        return censusList2[0].state;
     }
 }
