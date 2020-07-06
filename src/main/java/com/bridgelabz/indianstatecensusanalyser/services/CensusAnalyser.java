@@ -31,7 +31,7 @@ public class CensusAnalyser
     public int loadCensusData(Country country, char separator, String... csvFilePath)
             throws CensusAnalyserException
     {
-        censusMap = new CensusLoader().loadCensusData(country, separator, csvFilePath);
+        censusMap = CensusAdapterFactory.getCensusDataObject(country, separator, csvFilePath);
         return censusMap.size();
     }
 
