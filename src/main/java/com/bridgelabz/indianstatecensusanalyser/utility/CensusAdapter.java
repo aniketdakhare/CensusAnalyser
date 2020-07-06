@@ -1,4 +1,4 @@
-package com.bridgelabz.indianstatecensusanalyser.services;
+package com.bridgelabz.indianstatecensusanalyser.utility;
 
 import com.bridgelabz.csvbuilderjar.CSVBuilderException;
 import com.bridgelabz.csvbuilderjar.CSVBuilderFactory;

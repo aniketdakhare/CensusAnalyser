@@ -1,7 +1,8 @@
-package com.bridgelabz.indianstatecensusanalyser.services;
+package com.bridgelabz.indianstatecensusanalyser.utility;
 
 import com.bridgelabz.indianstatecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.CensusDAO;
+import com.bridgelabz.indianstatecensusanalyser.services.CensusAnalyser;
 
 import java.util.Map;
 

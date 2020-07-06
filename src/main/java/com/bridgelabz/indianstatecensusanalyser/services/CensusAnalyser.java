@@ -3,11 +3,11 @@ package com.bridgelabz.indianstatecensusanalyser.services;
 import com.bridgelabz.indianstatecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.CensusDAO;
+import com.bridgelabz.indianstatecensusanalyser.utility.CensusAdapterFactory;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toCollection;
 

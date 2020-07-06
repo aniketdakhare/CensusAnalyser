@@ -1,15 +1,15 @@
-package com.bridgelabz.indianstatecensusanalyser.services;
+package com.bridgelabz.indianstatecensusanalyser.utility;
 
 import com.bridgelabz.indianstatecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.CensusDAO;
-import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
+import com.bridgelabz.indianstatecensusanalyser.model.USCensusCSV;
 
 import java.util.Map;
 
-public class IndiaCensusAdapter extends CensusAdapter
+public class USCensusAdapter extends CensusAdapter
 {
     /**
-     * METHOD TO LOAD STATE CENSUS DATA
+     * METHOD TO LOAD US STATE CENSUS DATA
      * @param separator provides the seperator for records in csv file
      * @param csvFilePath provides the path of file
      * @return map of loaded data
@@ -19,6 +19,6 @@ public class IndiaCensusAdapter extends CensusAdapter
     public Map<String, CensusDAO> loadCensusData(char separator, String... csvFilePath)
             throws CensusAnalyserException
     {
-        return super.loadCensusData(separator, IndiaCensusCSV.class, csvFilePath);
+        return super.loadCensusData(separator, USCensusCSV.class, csvFilePath);
     }
 }
