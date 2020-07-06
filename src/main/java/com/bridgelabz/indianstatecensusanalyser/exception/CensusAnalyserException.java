@@ -4,7 +4,7 @@ public class CensusAnalyserException extends Exception
 {
     public enum ExceptionType
     {
-        CSV_FILE_PROBLEM, INVALID_COUNTRY, INCORRECT_DELIMITER_OR_HEADER
+        CSV_FILE_PROBLEM, INCORRECT_DELIMITER_OR_HEADER
     }
 
     public ExceptionType type;

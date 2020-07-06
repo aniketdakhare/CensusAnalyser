@@ -1,4 +1,4 @@
-package com.bridgelabz.indianstatecensusanalyser.services;
+package com.bridgelabz.indianstatecensusanalyser.utility;
 
 import com.bridgelabz.csvbuilderjar.CSVBuilderException;
 import com.bridgelabz.csvbuilderjar.CSVBuilderFactory;
@@ -18,26 +18,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
-public class CensusLoader
+public abstract class CensusAdapter
 {
-    /**
-     * METHOD TO LOAD STATE CENSUS DATA
-     * @param country provides country for which to load data
-     * @param separator provides the seperator for records in csv file
-     * @param csvFilePath provides the path of file
-     * @return map of loaded data
-     * @throws CensusAnalyserException while handling the occurred exception
-     */
-    public Map<String, CensusDAO> loadCensusData(CensusAnalyser.Country country, char separator, String... csvFilePath)
-            throws CensusAnalyserException
-    {
-        if (country.equals(CensusAnalyser.Country.INDIA))
-            return this.loadCensusData(separator, IndiaCensusCSV.class, csvFilePath);
-        else if (country.equals(CensusAnalyser.Country.US))
-            return this.loadCensusData(separator, USCensusCSV.class, csvFilePath);
-        else
-            throw new CensusAnalyserException("Incorrect Country", CensusAnalyserException.ExceptionType.INVALID_COUNTRY);
-    }
+    public abstract Map<String, CensusDAO> loadCensusData(char separator, String... csvFilePath)
+            throws CensusAnalyserException;
 
     /**
      * METHOD TO LOAD STATE CENSUS DATA

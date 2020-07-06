@@ -3,11 +3,13 @@ package com.bridgelabz.indianstatecensusanalyser.services;
 import com.bridgelabz.indianstatecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.indianstatecensusanalyser.model.IndiaCensusCSV;
 import com.bridgelabz.indianstatecensusanalyser.model.CensusDAO;
+import com.bridgelabz.indianstatecensusanalyser.utility.CensusAdapterFactory;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toCollection;
 
 public class CensusAnalyser
 {
@@ -16,10 +18,16 @@ public class CensusAnalyser
         INDIA, US
     }
 
+    private Country country;
     Map<String, CensusDAO> censusMap;
     private static final String SORTED_BY_POPULATION_JSON_PATH = "./IndiaStateCensusSortedByPopulation.json";
     private static final String SORTED_BY_POPULATION_DENSITY_JSON_PATH = "./IndiaStateCensusSortedByDensity.json";
     private static final String SORTED_BY_AREA_JSON_PATH = "./IndiaStateCensusSortedByArea.json";
+
+    public CensusAnalyser(Country country)
+    {
+        this.country = country;
+    }
 
     /**
      * METHOD TO LOAD CENSUS DATA
@@ -31,7 +39,7 @@ public class CensusAnalyser
     public int loadCensusData(Country country, char separator, String... csvFilePath)
             throws CensusAnalyserException
     {
-        censusMap = new CensusLoader().loadCensusData(country, separator, csvFilePath);
+        censusMap = CensusAdapterFactory.getCensusDataObject(country, separator, csvFilePath);
         return censusMap.size();
     }
 
@@ -63,10 +71,11 @@ public class CensusAnalyser
      */
     public String getSortedCensusDataAsPerState()
     {
-        List<CensusDAO> censusList = censusMap.values().stream()
-                .sorted(((Comparator<CensusDAO>) (censusData1, censusData2) -> censusData2
-                        .state.compareTo(censusData1.state)).reversed())
-                .collect(Collectors.toList());
+        Comparator<CensusDAO> daoComparator = Comparator.comparing(census -> census.state );
+        ArrayList censusList = censusMap.values().stream()
+                .sorted(daoComparator)
+                .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(toCollection(ArrayList::new));
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
     }
@@ -76,10 +85,11 @@ public class CensusAnalyser
      */
     public String getSortedStateCodeDataAsPerState()
     {
-        List<CensusDAO> stateCodeList = censusMap.values().stream()
+        ArrayList stateCodeList = censusMap.values().stream()
                 .sorted(((Comparator<CensusDAO>) (stateCodeData1, stateCodeData2) -> stateCodeData2
                         .stateCode.compareTo(stateCodeData1.stateCode)).reversed())
-                .collect(Collectors.toList());
+                .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(toCollection(ArrayList::new));
         String sortedStateCodeData = new Gson().toJson(stateCodeList);
         return sortedStateCodeData;
     }
@@ -118,9 +128,10 @@ public class CensusAnalyser
      */
     public String getSortedCensusDataAsPerPopulation()
     {
-        List<CensusDAO> censusList = censusMap.values().stream()
+        ArrayList censusList = censusMap.values().stream()
                 .sorted((censusData1, censusData2) -> censusData2.population.compareTo(censusData1.population))
-                .collect(Collectors.toList());
+                .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(toCollection(ArrayList::new));
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
     }
@@ -130,10 +141,11 @@ public class CensusAnalyser
      */
     public String getSortedCensusDataAsPerPopulationDensity()
     {
-        List<CensusDAO> censusList = censusMap.values().stream()
+        ArrayList censusList = censusMap.values().stream()
                 .sorted((censusData1, censusData2) ->
                         (int) (censusData2.populationDensity - censusData1.populationDensity))
-                .collect(Collectors.toList());
+                .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(toCollection(ArrayList::new));
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
     }
@@ -143,9 +155,10 @@ public class CensusAnalyser
      */
     public String getSortedCensusDataAsPerTotalArea()
     {
-        List<CensusDAO> censusList = censusMap.values().stream()
+        ArrayList censusList = censusMap.values().stream()
                 .sorted((censusData1, censusData2) -> (int) (censusData2.totalArea - censusData1.totalArea))
-                .collect(Collectors.toList());
+                .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(toCollection(ArrayList::new));
         String sortedCensusData = new Gson().toJson(censusList);
         return sortedCensusData;
     }
