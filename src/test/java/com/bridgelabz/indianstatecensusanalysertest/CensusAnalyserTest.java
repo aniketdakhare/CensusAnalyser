@@ -165,7 +165,8 @@ public class CensusAnalyserTest
         {
             indiaCensusAnalyser.loadCensusData(CensusAnalyser.Country.INDIA, ',',
                     "./src/test/resources/IndiaStateCensusData.csv",
-                    "./src/test/resources/IndianStateCode.csv");        }
+                    "./src/test/resources/IndianStateCode.csv");
+        }
         catch (CensusAnalyserException e)
         {
             e.printStackTrace();
